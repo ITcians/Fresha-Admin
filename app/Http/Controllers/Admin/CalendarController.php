@@ -15,16 +15,13 @@ class CalendarController extends Controller
     {
         $users = User::with('bookings')->where('role','!=','1')->get();
         $clients = Client::all();
-        // $services = Service::with('category')->where('status','=','1')->get();
-        // Controller
-// $services = Service::with('category')->where('status', '=', '1')->get()->groupBy('category.name');
-// return view('your-view', compact('services'));
-$services = Service::where('status', 1)
-    ->with('category')
-    ->get()
-    ->groupBy(function($service) {
-        return $service->category->category; // Assuming `category` has a `name` attribute
-    });
+        
+        $services = Service::where('status', 1)
+            ->with('category')
+            ->get()
+            ->groupBy(function($service) {
+                return $service->category->category; // Assuming `category` has a `name` attribute
+            });
 
 
         return view('backend.calendar.index',compact('users','services','clients'));

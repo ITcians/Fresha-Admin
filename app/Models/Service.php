@@ -23,6 +23,10 @@ class Service extends Model
         'image'
     ];
 
+    public function bookings()
+    {
+        return $this->belongsToMany(Booking::class, 'booking_services');  // Many-to-many relationship with Booking through pivot table
+    }
 
     public function category()
     {

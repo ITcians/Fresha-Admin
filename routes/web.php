@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function(){
 
     Route::controller(BookingController::class)->group(function(){
         Route::post('admin/booking/store','storeBooking')->name('admin.booking.store');
+        // Route to show booking details
+        Route::get('/booking-details/{id}', 'showBookingDetails')->name('booking.show');
+
     });
 
 

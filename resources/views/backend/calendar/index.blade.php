@@ -301,6 +301,11 @@
 
 </div>
 
+<!-- Calendar Dropdown Menu -->
+<div id="calendar-dropdown" class="dropdown-menu" style="position: absolute;">
+    <a href="#" class="dropdown-item" id="add-booking">Add Booking</a>
+    <a href="#" class="dropdown-item" id="add-block-time">Add Block Time</a>
+</div>
 
 
 <!-- right offcanvas -->
@@ -407,9 +412,6 @@
                         </div>
                     </div>
 
-                    
-                    
-                
                     <!-- Hidden input to store selected service IDs -->
                     <input type="hidden" name="services[]" id="selected-services" value="">
         
@@ -479,7 +481,6 @@ $(document).ready(function() {
 
 ///////////////calendar
 
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize FullCalendar for each user dynamically
     @foreach ($users as $user)
@@ -494,13 +495,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 @foreach ($user->bookings as $booking)
                     {
                         title: '{{ $booking->title }}',
-                        start: '{{ $booking->start_time }}',
-                        end: '{{ $booking->end_time }}'
+                        start: '{{ \Carbon\Carbon::parse($booking->start_time)->toIso8601String() }}',  // Format to ISO 8601
+                        end: '{{ \Carbon\Carbon::parse($booking->end_time)->toIso8601String() }}',      // Format to ISO 8601
+                        id: '{{ $booking->id }}',
                     },
                 @endforeach
             ],
-            slotDuration: '00:15:00',
-            allDaySlot: false,
+           slotDuration: '00:15:00',  
+            allDaySlot: false,  
+            editable: false,  
+            droppable: false, // Disable dragging events (optional)
+            dateClick: function(info) {
+                // Show the dropdown at the position of the click
+                showDropdown(info.jsEvent.pageX, info.jsEvent.pageY, info.dateStr);
+            },
+            eventClick: function(info) {
+                // Redirect to a page to view booking details
+                var bookingId = info.event.id;
+                window.location.href = '/booking-details/' + bookingId;  // Adjust this URL to match your route
+            }
         });
     @endforeach
 
@@ -547,7 +560,202 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
+    function showDropdown(x, y, dateStr) {
+        const dropdown = document.getElementById('calendar-dropdown');
+        const offcanvas = document.getElementById('offcanvasRight');
+        console.log(dropdown);
+        // Position the dropdown at the click location
+        dropdown.style.left = `${x}px`;
+        dropdown.style.top = `${y}px`;
+
+        // Show the dropdown
+        dropdown.classList.add('show');
+
+        // Set the clicked date in the dropdown options (optional)
+        dropdown.querySelectorAll('.dropdown-option').forEach(option => {
+            option.dataset.date = dateStr;
+        });
+
+        
+
+        // Handle the click events on the dropdown items
+        dropdown.querySelector('#add-booking').addEventListener('click', function() {
+        // Open the offcanvas
+        const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
+        offcanvas.show();
+        console.log("Opening booking offcanvas for date:", dateStr);
+    });
+
+        dropdown.querySelector('#add-block-time').addEventListener('click', function() {
+            window.location.href = '/add-block-time?date=' + dateStr;  // Redirect to block time page
+        });
+    }
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('calendar-dropdown');
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
 });
+
+
+    // working
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Initialize FullCalendar for each user dynamically
+//     @foreach ($users as $user)
+//         var calendar{{ $user->id }} = new FullCalendar.Calendar(document.getElementById('calendar-{{ $user->id }}'), {
+//             initialView: 'timeGridDay',
+//             headerToolbar: {
+//                 left: 'prev,next today',
+//                 center: 'title',
+//                 right: 'timeGridWeek,timeGridDay'
+//             },
+//             events: [
+//                 @foreach ($user->bookings as $booking)
+//                     {
+//                         title: '{{ $booking->title }}',
+//                         start: '{{ \Carbon\Carbon::parse($booking->start_time)->toIso8601String() }}',  // Format to ISO 8601
+//                         end: '{{ \Carbon\Carbon::parse($booking->end_time)->toIso8601String() }}',      // Format to ISO 8601
+//                         id: '{{ $booking->id }}',
+//                     },
+//                 @endforeach
+//             ],
+//            slotDuration: '00:15:00',  
+//             allDaySlot: false,  
+//             editable: false,  
+//             droppable: false, // Disable dragging events (optional)
+//             dateClick: function(info) {
+//                 alert("You clicked on date: " + info.dateStr);  // Simple message showing the clicked date
+//             },
+//             eventClick: function(info) {
+//                 // Redirect to a page to view booking details
+//                 var bookingId = info.event.id;
+//                 window.location.href = '/booking-details/' + bookingId;  // Adjust this URL to match your route
+//             }
+//         });
+//     @endforeach
+
+//     // Render the calendars when the tab is shown
+//     document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function(tab) {
+//         tab.addEventListener('shown.bs.tab', function(e) {
+//             var target = e.target.getAttribute('href').replace('#', '');
+//             // Render the calendar only for the tab that is shown
+//             @foreach ($users as $user)
+//                 if (target === 'calendar-tab-{{ $user->id }}') {
+//                     calendar{{ $user->id }}.render();
+//                 }
+//             @endforeach
+//         });
+//     });
+
+//     // Initially render the first calendar
+//     @foreach ($users as $index => $user)
+//         @if($index === 0)
+//             calendar{{ $user->id }}.render();
+//         @endif
+//     @endforeach
+
+//     // Handle Add Button Logic to auto-select active user
+//     const addButton = document.querySelector('.add-button');
+//     if (addButton) {
+//         addButton.addEventListener('click', function() {
+//             // Get the ID of the currently active tab (user) inside .calender-users-images
+//             const activeTab = document.querySelector('.calender-users-images .nav-tabs .nav-link.active');
+            
+//             // Ensure we are targeting the correct user tab within this section
+//             if (activeTab) {
+//                 const activeUserId = activeTab.getAttribute('data-user-id'); // Get the data-user-id of the active tab
+//                 console.log("Active Tab:", activeTab); // Debugging: Check if the active tab is being selected correctly
+//                 console.log("Active user ID: " + activeUserId); // Debugging: Check if the active user ID is correct
+
+//                 // Update the select input with the active user's ID
+//                 const userSelect = document.querySelector('select[name="booking_team_member"]');
+//                 if (userSelect) {
+//                     userSelect.value = activeUserId; // Set the active user's ID as the selected value
+//                 }
+//             } else {
+//                 console.log("No active user tab found!"); // Debugging if no active user tab is found
+//             }
+//         });
+//     }
+// });
+
+
+
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Initialize FullCalendar for each user dynamically
+//     @foreach ($users as $user)
+//         var calendar{{ $user->id }} = new FullCalendar.Calendar(document.getElementById('calendar-{{ $user->id }}'), {
+//             initialView: 'timeGridDay',
+//             headerToolbar: {
+//                 left: 'prev,next today',
+//                 center: 'title',
+//                 right: 'timeGridWeek,timeGridDay'
+//             },
+//             events: [
+//                 @foreach ($user->bookings as $booking)
+//                 {
+//                     title: '{{ $booking->title }}',
+//                     start: '{{ $booking->start_time }}',  // Ensure this is in the format 'YYYY-MM-DD HH:mm:ss'
+//                     end: '{{ $booking->end_time }}',      // Ensure this is in the format 'YYYY-MM-DD HH:mm:ss'
+//                 },
+//             @endforeach
+//             ],
+//             slotDuration: '00:15:00',
+//             allDaySlot: false,
+//         });
+//     @endforeach
+
+//     // Render the calendars when the tab is shown
+//     document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function(tab) {
+//         tab.addEventListener('shown.bs.tab', function(e) {
+//             var target = e.target.getAttribute('href').replace('#', '');
+//             // Render the calendar only for the tab that is shown
+//             @foreach ($users as $user)
+//                 if (target === 'calendar-tab-{{ $user->id }}') {
+//                     calendar{{ $user->id }}.render();
+//                 }
+//             @endforeach
+//         });
+//     });
+
+//     // Initially render the first calendar
+//     @foreach ($users as $index => $user)
+//         @if($index === 0)
+//             calendar{{ $user->id }}.render();
+//         @endif
+//     @endforeach
+
+//     // Handle Add Button Logic to auto-select active user
+//     const addButton = document.querySelector('.add-button');
+//     if (addButton) {
+//         addButton.addEventListener('click', function() {
+//             // Get the ID of the currently active tab (user) inside .calender-users-images
+//             const activeTab = document.querySelector('.calender-users-images .nav-tabs .nav-link.active');
+            
+//             // Ensure we are targeting the correct user tab within this section
+//             if (activeTab) {
+//                 const activeUserId = activeTab.getAttribute('data-user-id'); // Get the data-user-id of the active tab
+//                 console.log("Active Tab:", activeTab); // Debugging: Check if the active tab is being selected correctly
+//                 console.log("Active user ID: " + activeUserId); // Debugging: Check if the active user ID is correct
+
+//                 // Update the select input with the active user's ID
+//                 const userSelect = document.querySelector('select[name="booking_team_member"]');
+//                 if (userSelect) {
+//                     userSelect.value = activeUserId; // Set the active user's ID as the selected value
+//                 }
+//             } else {
+//                 console.log("No active user tab found!"); // Debugging if no active user tab is found
+//             }
+//         });
+//     }
+// });
 
 
 

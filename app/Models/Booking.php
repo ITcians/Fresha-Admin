@@ -11,7 +11,6 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id',
-        'service_id',
         'client_id',
         'title',
         'start',
@@ -19,9 +18,14 @@ class Booking extends Model
     ];
 
 
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'booking_services');
+    }
+
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class); // Ensure it returns the relationship
     }
 
 }
