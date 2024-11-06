@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CatalogController;
@@ -30,6 +31,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth'])->group(function(){
     Route::get('admin/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
+    Route::get('admin/service',[DashboardController::class,'getService'])->name('service');
+    Route::get('admin/team',[DashboardController::class,'getTeam'])->name('team');
+    // Route::get('admin/appointment',[AppointmentController::class,'index'])->name('appointment.activity');
     Route::get('admin/profile',[ProfileController::class,'index'])->name('admin.profile.index');
     Route::get('admin/profile/edit',[ProfileController::class,'edit'])->name('admin.profile.edit');
     Route::post('admin/profile/update/{id}',[ProfileController::class,'update'])->name('admin.profile.update');

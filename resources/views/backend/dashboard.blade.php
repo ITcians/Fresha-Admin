@@ -78,13 +78,42 @@
                                     </div><!-- end card header -->
                             
                                     <!-- card body -->
-                                    <div class="card-body d-flex align-items-start justify-content-center">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="card card-height-50">
+                                                {{-- <div class="card-header align-items-center d-flex">
+                                                    <h4 class="card-title mb-0 flex-grow-1">Top Services</h4>
+                                                </div><!-- end card header --> --}}
+            
+                                                <div class="card-body">
+                                                    <table class="table" >
+                                                        <thead>
+                                                            <th>ID</th>
+                                                            <th>Client Name</th>
+                                                            <th>Service</th>
+                                                            <th>Created At</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($bookingservice as $bs)
+                                                            <tr>
+                                                                <td>{{ $bs->id}} </td>
+                                                                <td>{{ $bs->booking->client->fname ?? 'Unknown User' }}</td>
+                                                                <td>{{ $bs->service->service_name ?? 'No Service' }} </td>
+                                                                <td>{{$bs->created_at}}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div> <!-- .card-->
+                                        </div> <!-- .col-->
+                                    {{-- <div class="card-body d-flex align-items-start justify-content-center">
                                         <div class="d-flex flex-column align-items-center text-start" style="height: 200px; margin-top:100px;">
                                             <i class="ri-bar-chart-2-line" style="font-size: 2.5rem;"></i>
                                             <h3 class="mt-2 mb-1">Your schedule is empty</h3>
                                             <p class="mb-0">Make some appointments for schedule data to appear</p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <!-- end card body -->
                                 </div>
                                 <!-- end card -->
@@ -96,10 +125,10 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Appiontment Activity</h4>
+                                        <h4 class="card-title mb-0 flex-grow-1">Appointment Activity</h4>
                                         
                                     </div><!-- end card header -->
 
@@ -108,111 +137,40 @@
                                             <table class="table table-hover table-centered align-middle table-nowrap mb-0">
                                                 <tbody>
                                                     <tr>
+                                                        @foreach ($bookingservice as $bs)
+                                                        @php
+                                                        $createdAt = \Carbon\Carbon::parse($bs->created_at);
+                                                         @endphp
+                                                
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <div class="rounded me-2">
-                                                                    <strong>16</strong>
-                                                                    <p>Oct</p>
+                                                                    <strong>{{ $createdAt->format('j') }}</strong>
+                                                                        <p>{{ $createdAt->format('M') }}</p>
+
                                                                 </div>
                                                                 <div>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
-                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">
+                                                                    <?php 
+                                                                    $status = $bs->booking->status == 1 ? 'Confirmed' : 'Pending';   
+                                                                    echo $status
+                                                                    ?>    
+                                                                    </a> </h5>
+                                                                    <h5 class="mt-2 mx-2">
+                                                                        <h5 class="mt-2 mx-2">
+                                                                            {{ $bs->service->service_name ?? 'No Service' }}  <!-- Safe fallback if no service found -->
+                                                                        </h5>
+                                                                    </h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">{{ $bs->booking->user->fname ?? 'Unknown User' }}</a> </h5>
 
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        
-                                                        <td>
-                                                            <h4 class="">PKR 510</h4>
-                                                        </td>
-                                                        
-                                                    </tr>
+                                                        @endforeach
 
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="rounded me-2">
-                                                                    <strong>16</strong>
-                                                                    <p>Oct</p>
-                                                                </div>
-                                                                <div>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
-                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
                                                         
                                                         <td>
-                                                            <h4 class="">PKR 510</h4>
-                                                        </td>
-                                                        
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="rounded me-2">
-                                                                    <strong>16</strong>
-                                                                    <p>Oct</p>
-                                                                </div>
-                                                                <div>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
-                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <h4 class="">PKR 510</h4>
-                                                        </td>
-                                                        
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="rounded me-2">
-                                                                    <strong>16</strong>
-                                                                    <p>Oct</p>
-                                                                </div>
-                                                                <div>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
-                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <h4 class="">PKR 510</h4>
-                                                        </td>
-                                                        
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="rounded me-2">
-                                                                    <strong>16</strong>
-                                                                    <p>Oct</p>
-                                                                </div>
-                                                                <div>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
-                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
-                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <h4 class="">PKR 510</h4>
+                                                            <h4 class="">USD {{ $bs->service->price ?? 'No Price' }} </h4>
                                                         </td>
                                                         
                                                     </tr>
@@ -227,7 +185,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-xl-6">
+                            {{-- <div class="col-xl-6">
                                 <!-- card -->
                                 <div class="card card-height-100">
                                     <div class="card-header align-items-center d-flex">
@@ -245,7 +203,7 @@
                                     <!-- end card body -->
                                 </div>
                                 <!-- end card -->
-                            </div>
+                            </div> --}}
                         </div> <!-- end row-->
 
                         <div class="row">
@@ -256,23 +214,15 @@
                                     </div><!-- end card header -->
 
                                     <div class="card-body">
-                                        <table class="table">
+                                        <table class="table" id="serviceTable">
                                             <thead>
+                                                <th>ID</th>
                                                 <th>Service</th>
                                                 <th>This Month</th>
                                                 <th>Last Month</th>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Haircut</td>
-                                                    <td>5</td>
-                                                    <td>1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Blow Dry</td>
-                                                    <td>3</td>
-                                                    <td>2</td>
-                                                </tr>
+                                             
                                             </tbody>
                                         </table>
                                     </div>
@@ -287,23 +237,13 @@
                                     </div><!-- end card header -->
 
                                     <div class="card-body">
-                                        <table class="table">
+                                        <table class="table" id="teamTable">
                                             <thead>
                                                 <th>Team member</th>
                                                 <th>This Month</th>
                                                 <th>Last Month</th>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>John doe</td>
-                                                    <td>PKR 87.00</td>
-                                                    <td>PKR 0.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>James</td>
-                                                    <td>PKR 87.00</td>
-                                                    <td>PKR 8.00</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -761,4 +701,75 @@
 
 <!-- linecharts init -->
 <script src="{{asset('assets/backend/js/pages/apexcharts-line.init.js')}}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#serviceTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('service') }}',
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'service_name', name: 'service_name' },
+                { 
+                    data: 'this_month', 
+                    name: 'this_month',
+                    render: function(data, type, row) {
+                        return 'November';  // Static value
+                    }
+                },
+                { 
+                    data: 'last_month', 
+                    name: 'last_month',
+                    render: function(data, type, row) {
+                        return 'September';  // Static value
+                    }
+                },
+            ]
+        });
+    });
+
+ </script>
+
+
+{{-- <script type="text/javascript">
+    $(function() {
+        var table = $('#teamTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ url('admin/team') }}",
+                type: 'GET',  // Ensure the correct HTTP method is used
+                dataSrc: function (json) {
+                    console.log(json);  // Check the structure of the response
+                    return json.data;  // Ensure 'data' is the array DataTables needs
+                }
+            },
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'fname', name: 'fname' },
+                { 
+                    data: 'this_month', 
+                    name: 'this_month',
+                    render: function(data, type, row) {
+                        return 'November';  // Static value
+                    }
+                },
+                { 
+                    data: 'last_month', 
+                    name: 'last_month',
+                    render: function(data, type, row) {
+                        return 'September';  // Static value
+                    }
+                },
+            ]
+        });
+    });
+</script> --}}
+
+
 @endpush
+
+
+ 
+    
