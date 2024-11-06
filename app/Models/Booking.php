@@ -11,10 +11,12 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id',
+        // 'service_id',
         'client_id',
         'title',
         'start',
         'end',
+        'status',
     ];
 
 
@@ -25,7 +27,16 @@ class Booking extends Model
 
     public function user()
     {
+<<<<<<< HEAD
         return $this->belongsTo(User::class); // Ensure it returns the relationship
+=======
+        return $this->belongsTo(User::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class,'client_id');
+>>>>>>> 6be56865f929a30820bb9aced9e44c43d00c2234
     }
 
 }

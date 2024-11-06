@@ -15,11 +15,17 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+<<<<<<< HEAD
+=======
+            // $table->unsignedBigInteger('service_id')->nullable();
+            // $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
+>>>>>>> 6be56865f929a30820bb9aced9e44c43d00c2234
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
+            $table->integer('status')->default('1'); // 0 pending 1 confirmed 2 completed
             $table->timestamps();
         });
     }
