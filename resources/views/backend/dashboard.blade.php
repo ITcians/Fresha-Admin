@@ -45,7 +45,7 @@
                                                     return $bs->service ? $bs->service->price : 0; // Sum the prices of all services, assuming they exist
                                                 });
                                             ?>
-                                            <h3>PKR {{ $sum }}</h3></h3>
+                                            <h3>USD {{ $sum }}</h3></h3>
                                             <div id="line_chart_datalabel" data-colors='["--vz-primary", "--vz-success"]' class="apex-charts" dir="ltr"></div>
                                         </div><!-- end card-body -->
                                     </div><!-- end card -->
@@ -244,6 +244,7 @@
                                     <div class="card-body">
                                         <table class="table" id="teamTable">
                                             <thead>
+                                                <th>ID</th>
                                                 <th>Team member</th>
                                                 <th>This Month</th>
                                                 <th>Last Month</th>
