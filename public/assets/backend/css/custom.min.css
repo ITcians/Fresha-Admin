@@ -1,0 +1,181 @@
+
+/*# sourceMappingURL=custom.min.css.map */
+.team-members-count {
+    font-size: 14px;
+    border: 1px solid #d5d7da;
+    background: #fff;
+    width: 30px; /* Set a fixed width */
+    height: 30px; /* Set a fixed height equal to width */
+    padding: 5px; /* Adjust padding for centering the number */
+    border-radius: 50%; /* Make it fully round */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    margin-left: 10px
+}
+
+.filter-button {
+    display: inline-flex; /* Make it a flex container */
+    align-items: center; /* Center vertically */
+    border: 1px solid; /* Border */
+    padding: 7px 15px; /* Padding for a better look */
+    border-radius: 50px; /* Fully rounded */
+    background: #fff; /* Background color */
+    text-decoration: none; /* Remove underline from link */
+    color: #000; /* Text color */
+    transition: background 0.3s; /* Smooth transition for hover */
+}
+
+.filter-button:hover {
+    background: #f9f9f9; /* Darker background on hover */
+}
+
+
+.advnce_opt:hover{
+    cursor: pointer;
+}
+
+.advnce_opt{
+    color: #007bff;
+}
+
+.tm-span{
+    font-size: 12px;
+}
+
+
+/* .add-rsc-btn{
+    padding: 10px;
+    border: 1 px solid #cccccc;
+    border-radius: 50%;
+} */
+
+.add-rsc-btn {
+    background-color: white; /* White background */
+    color: #1a1a1a;
+    border: 2px solid #afb0b0;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
+}
+
+.add-rsc-btn:hover {
+    background-color: #f8f8f8;
+    color: rgb(15, 14, 14); 
+    border-color: #38393a;
+}
+
+
+.input-group-text {
+    cursor: pointer; /* Pointer cursor for icons */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.input-group-text.active {
+    background-color: white; 
+    border-color: #38393a;
+
+}
+
+
+
+.input-group-text {
+    transition: background-color 0.3s ease;
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.input-group-text.radio-option.active {
+    background-color: white; /* Background color when checked */
+}
+
+.input-group-text.radio-option:hover {
+    background-color: #f8f9fa; /* Background color on hover */
+}
+
+
+/* .form-select{
+    border-radius: 40px !important;
+} */
+.waitlist{
+    border: 1px solid #cccccc;
+    border-radius: 40px;
+    padding: 4px;
+    text-align: center;
+
+
+}
+.waitlist:hover{
+    background: #f9f8f8ec
+}
+                        
+.service-item {
+background-color: #f8f9fa; /* Light background */
+border: 1px solid #dee2e6; /* Border color */
+border-radius: 5px;
+padding: 15px;
+position: relative;
+transition: background-color 0.3s;
+}
+
+.service-item:hover {
+background-color: #e2e6ea; /* Darker background on hover */
+cursor: pointer; /* Change cursor to pointer */
+}
+
+.service-item h4 {
+margin: 0;
+}
+
+.service-item .float-end {
+position: absolute;
+right: 15px;
+top: 15px;
+font-weight: bold;
+}
+
+.product-form .form-label{
+    color: #1a1a1a;
+    font-size: 15px;
+}
+
+
+.table-active {
+    background-color: #f0f8ff; /* Light blue background */
+    border: 1px solid #cccccc;
+}
+
+
+/* .table .service-name-cell {
+    border-left: 3px solid #007bff; 
+    padding-left: 15px; 
+} */
+
+/* Add vertical line to the left of each service row */
+.service-row {
+   
+    border-left: 4px solid #007bff; 
+    border-radius: 20px;
+    padding-left: 20px; 
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+.service-name-cell {
+    padding-left: 20px; /* Create a gap between the vertical line and the content */
+    padding-right: 10px; /* Optional padding if needed */
+}
+
+/* This ensures the content within the row has space and doesn't touch the vertical line */
+.service-info {
+    margin-left: 15px; /* Adjust this to increase/decrease the gap between the vertical line and the text */
+}
+
+.calender-users-images ul li img{
+    border-radius: 50%;
+}
+
+
