@@ -40,7 +40,12 @@
         
                                         <div class="card-body">
                                            <p>Last 7 days</p>
-                                            <h3>PKR 87.00</h3>
+                                            <h3> <?php
+                                                $sum = $bookingservice->sum(function($bs) {
+                                                    return $bs->service ? $bs->service->price : 0; // Sum the prices of all services, assuming they exist
+                                                });
+                                            ?>
+                                            <h3>PKR {{ $sum }}</h3></h3>
                                             <div id="line_chart_datalabel" data-colors='["--vz-primary", "--vz-success"]' class="apex-charts" dir="ltr"></div>
                                         </div><!-- end card-body -->
                                     </div><!-- end card -->
@@ -730,7 +735,22 @@
     });
 
  </script>
+ <script>
+     $(document).ready(function() {
+        $('#teamTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('dashboard.team') }}',
+            columns: [
+                 { data: 'id', name: 'id' },
+                { data: 'fname', name: 'fname' },
+                { data: 'this_month', name: 'this_month' },
+                { data: 'last_month', name: 'last_month' },
+            ]
+        });
+    });
 
+ </script>
 
 {{-- <script type="text/javascript">
     $(function() {
@@ -738,34 +758,23 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('admin/team') }}",
-                type: 'GET',  // Ensure the correct HTTP method is used
+                url: "admin/team",  // This generates the URL for the 'team' route
+                type: 'GET',
                 dataSrc: function (json) {
-                    console.log(json);  // Check the structure of the response
-                    return json.data;  // Ensure 'data' is the array DataTables needs
+                    console.log(json);  // Log the response structure for debugging
+                    return json.data;  // Return the 'data' property from the JSON response
                 }
             },
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'fname', name: 'fname' },
-                { 
-                    data: 'this_month', 
-                    name: 'this_month',
-                    render: function(data, type, row) {
-                        return 'November';  // Static value
-                    }
-                },
-                { 
-                    data: 'last_month', 
-                    name: 'last_month',
-                    render: function(data, type, row) {
-                        return 'September';  // Static value
-                    }
-                },
+                { data: 'this_month', name: 'this_month' },
+                { data: 'last_month', name: 'last_month' },
             ]
         });
     });
 </script> --}}
+
 
 
 @endpush

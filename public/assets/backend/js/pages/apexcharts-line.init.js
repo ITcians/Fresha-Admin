@@ -267,7 +267,7 @@ var linechartBasicColors = getChartColorsArray("line_chart_basic"),
                     { name: "Low - 2018", data: [14, 11, 16, 12, 17, 13, 12] },
                 ],
                 title: {
-                    text: "Average High & Low Temperature",
+                    text: "",
                     align: "left",
                     style: { fontWeight: 500 },
                 },

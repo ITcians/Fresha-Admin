@@ -30,15 +30,21 @@ class DashboardController extends Controller
         return view('backend.dashboard');
     }
 
-    public function getTeam(Request $request)
-    {
-        $teams = User::where('role',2)->get(); // Modify this as needed (e.g., filtering, pagination)
+public function getTeam(Request $request)
+{
+    $data = User::where('role', 2)->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($teams)
-                ->make(true);
-        }
-
-        return view('backend.dashboard'); // Replace with the appropriate view
+    if ($request->ajax()) {
+        return DataTables::of($data)
+            ->addColumn('this_month', function ($data) {
+                return 'November'; 
+            })
+            ->addColumn('last_month', function ($data) {
+                return 'September'; 
+            })
+            ->make(true);
     }
+
+    return view('backend.dashboard'); 
+}
 }
