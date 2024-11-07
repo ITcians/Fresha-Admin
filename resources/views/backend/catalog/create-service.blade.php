@@ -907,6 +907,17 @@ input[type="file"] {
     </div><!-- End Page-content -->
 </div><!-- end main content -->
 
+<!-- Toast Notification Container -->
+{{-- <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Notification</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toast-body" class="toast-body"></div>
+    </div>
+</div> --}}
+
 
 
 {{-- add varient modal --}}
@@ -1224,6 +1235,12 @@ input[type="file"] {
 </script>
 
 @push('scripts')
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.0/dist/sweetalert2.all.min.js"></script>
+
 <script src="{{asset('assets/backend/js/pages/form-wizard.init.js')}}"></script>
 
 <script>
@@ -1763,180 +1780,6 @@ function updateInputType(radio, index) {
 
 
 
-
-
-// function saveCommissionData() {
-//     const serviceId = {{ $serviceId }};
-//     const commissionData = [];
-
-//     console.log(serviceId);
-
-//     // Loop through each team member row
-//     document.querySelectorAll('tr[data-user-id]').forEach((row) => {
-//         const userId = row.dataset.userId;
-
-//         // Get the commission rate
-//         const commissionRateSelect = row.querySelector('select[name="commission_rate"]');
-//         const commissionRate = commissionRateSelect ? commissionRateSelect.value : null;
-
-//         let commissionValue = '';
-//         let commissionType = '';
-
-//         // Check if the commission rate select was found
-//         if (!commissionRateSelect) {
-//             console.error(`Commission rate select not found for user ID: ${userId}`);
-//             return; // Skip this user if no select
-//         }
-
-//         // Get the commission input value
-//         const commissionInput = row.querySelector('input[name="commission_value"]');
-//         if (commissionRate === 'fixed' && commissionInput) {
-//             commissionValue = commissionInput.value;
-//         }
-
-//         const index = Array.from(row.parentNode.children).indexOf(row); // Get the index of the current row
-//         const commissionTypeInput = row.querySelector(`input[name='commission_type${index}']:checked`);
-//         console.log(commissionTypeInput)
-//         if (commissionRate === 'fixed') {
-//             if (commissionTypeInput) {
-//                 commissionType = commissionTypeInput.value;
-//             } else {
-//                 console.error(`No commission type selected for user ID: ${userId}`);
-//                 return; // Skip this user if there's no commission type
-//             }
-//         } else if (commissionRate === 'no_commission') {
-//             commissionType = 'no_commission';
-//         }
-
-//          if (commissionRate === 'fixed') {
-//             if (commissionTypeInput) {
-//                 commissionType = commissionTypeInput.value;
-//             } else {
-//                 console.error(`No commission type selected for user ID: ${userId}`);
-//                 return; // Skip this user if there's no commission type
-//             }
-//         } else if (commissionRate === 'no_commission') {
-//             commissionType = 'no_commission';
-//         }
-
-//         // Ensure that we have a valid commission type before pushing to the array
-//         if (commissionType) {
-//             commissionData.push({
-//                 user_id: userId,
-//                 service_id: serviceId,
-//                 commission_rate: commissionRate,
-//                 commission_value: commissionValue,
-//                 commission_type: commissionType
-//             });
-//         }
-//     });
-
-//     // Send the data using AJAX if there are commissions to save
-//     if (commissionData.length > 0) {
-//         fetch('/store-commission', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
-//             },
-//             body: JSON.stringify(commissionData)
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 alert('Commission data saved successfully!');
-//             } else {
-//                 alert('Error saving data: ' + data.message);
-//             }
-//         })
-//         .catch(error => console.error('Error:', error));
-//     } else {
-//         alert('No commission data to save.');
-//     }
-// }
-
-
-
-
-// function saveCommissionData() {
-//     const serviceId = {{ $serviceId }};
-//     const commissionData = [];
-
-//     // Loop through each team member row
-//     document.querySelectorAll('tr[data-user-id]').forEach((row) => {
-//         const userId = row.dataset.userId;
-
-//         // Get the commission rate
-//         const commissionRateSelect = row.querySelector('select[name="commission_rate"]');
-//         const commissionRate = commissionRateSelect ? commissionRateSelect.value : null;
-
-//         let commissionValue = '';
-//         let commissionType = '';
-
-//         // Check if the commission rate select was found
-//         if (!commissionRateSelect) {
-//             console.error(`Commission rate select not found for user ID: ${userId}`);
-//             return; // Skip this user if no select
-//         }
-
-//         // Get the commission input value
-//         const commissionInput = row.querySelector('input[name="commission_value"]');
-//         if (commissionRate === 'fixed' && commissionInput) {
-//             commissionValue = commissionInput.value;
-//         }
-
-//         // Adjusted selection for the commission type based on the loop index
-//         const index = Array.from(row.parentNode.children).indexOf(row); // Get the index of the current row
-//         const commissionTypeInput = row.querySelector(`input[name='commission_type${index}']:checked`);
-
-//         if (commissionTypeInput) {
-//             commissionType = commissionTypeInput.value;
-//             console.log(`User ID: ${userId}, Commission Type: ${commissionType}`); // Debugging log
-//         } else if (commissionRate === 'no_commission') {
-//             commissionType = 'no_commission';
-//         } else {
-//             console.error(`No commission type selected for user ID: ${userId}`);
-//             return; // Skip this user if there's no commission type
-//         }
-
-//         // Ensure that we have a valid commission type before pushing to the array
-//         if (commissionType) {
-//             commissionData.push({
-//                 user_id: userId,
-//                 service_id: serviceId,
-//                 commission_rate: commissionRate,
-//                 commission_value: commissionValue,
-//                 commission_type: commissionType
-//             });
-//         }
-//     });
-
-//     // Send the data using AJAX if there are commissions to save
-//     if (commissionData.length > 0) {
-//         fetch('/store-commission', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
-//             },
-//             body: JSON.stringify(commissionData)
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 alert('Commission data saved successfully!');
-//                 $('#showAllTeamMemberModal').modal('hide');
-//             } else {
-//                 alert('Error saving data: ' + data.message);
-//             }
-//         })
-//         .catch(error => console.error('Error:', error));
-//     } else {
-//         alert('No commission data to save.');
-//     }
-// }
-
-
 function saveCommissionData() {
     const serviceId = {{ $serviceId }};
     const commissionData = [];
@@ -1989,28 +1832,133 @@ function saveCommissionData() {
     });
 
     // Send the data using AJAX if there are commissions to save
+    // if (commissionData.length > 0) {
+    //     fetch('/store-commission', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
+    //         },
+    //         body: JSON.stringify(commissionData)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             alert('Commission data saved successfully!');
+    //             $('#showAllTeamMemberModal').modal('hide');
+    //         } else {
+    //             alert('Error saving data: ' + data.message);
+    //         }
+    //     })
+    //     .catch(error => console.error('Error:', error));
+    // } else {
+    //     alert('No commission data to save.');
+    // }
+
+    // if (commissionData.length > 0) {
+    //  fetch('/store-commission', {
+    //      method: 'POST',
+    //      headers: {
+    //          'Content-Type': 'application/json',
+    //          'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
+    //      },
+    //      body: JSON.stringify(commissionData)
+    //  })
+    //  .then(response => response.json())
+    //  .then(data => {
+    //      const toastBody = document.getElementById('toast-body');
+    //      if (data.success) {
+    //          // Display success toast
+    //          toastBody.textContent = 'Commission data saved successfully!';
+    //          $('#showAllTeamMemberModal').modal('hide');
+    //          showToast('success');
+    //      } else {
+    //          // Display error toast
+    //          toastBody.textContent = 'Error saving data: ' + data.message;
+    //          showToast('danger');
+    //      }
+    //  })
+    //  .catch(error => {
+    //      const toastBody = document.getElementById('toast-body');
+    //      toastBody.textContent = 'Error: ' + error.message;
+    //      showToast('danger');
+    //  });
+    // } else {
+    //     const toastBody = document.getElementById('toast-body');
+    //     toastBody.textContent = 'No commission data to save.';
+    //     showToast('warning');
+    // }
+
     if (commissionData.length > 0) {
-        fetch('/store-commission', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
-            },
-            body: JSON.stringify(commissionData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Commission data saved successfully!');
-                $('#showAllTeamMemberModal').modal('hide');
-            } else {
-                alert('Error saving data: ' + data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    } else {
-        alert('No commission data to save.');
-    }
+    fetch('/store-commission', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
+        },
+        body: JSON.stringify(commissionData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Display SweetAlert success message
+            Swal.fire({
+                title: 'Success!',
+                text: 'Commission data saved successfully!',
+                icon: 'success',
+                confirmButtonText: 'Okay'
+            });
+            $('#showAllTeamMemberModal').modal('hide');
+        } else {
+            // Display SweetAlert error message
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error saving data: ' + data.message,
+                icon: 'error',
+                confirmButtonText: 'Okay'
+            });
+        }
+    })
+    .catch(error => {
+        // Display SweetAlert error message
+        Swal.fire({
+            title: 'Error!',
+            text: 'Error: ' + error.message,
+            icon: 'error',
+            confirmButtonText: 'Okay'
+        });
+    });
+} else {
+    // Display SweetAlert warning message
+    Swal.fire({
+        title: 'No Data!',
+        text: 'No commission data to save.',
+        icon: 'warning',
+        confirmButtonText: 'Okay'
+    });
+}
+
+
+    // Function to show the toast
+    // function showToast(type) {
+    //     const toastElement = document.getElementById('toast');
+    //     const toast = new bootstrap.Toast(toastElement);
+
+    //     // Set the toast type (color)
+    //     const toastHeader = toastElement.querySelector('.toast-header');
+    //     toastHeader.classList.remove('bg-success', 'bg-danger', 'bg-warning');
+    //     if (type === 'success') {
+    //         toastHeader.classList.add('bg-success');
+    //     } else if (type === 'danger') {
+    //         toastHeader.classList.add('bg-danger');
+    //     } else if (type === 'warning') {
+    //         toastHeader.classList.add('bg-warning');
+    //     }
+
+    //     // Show the toast
+    //     toast.show();
+    // }
+
 }
 
 

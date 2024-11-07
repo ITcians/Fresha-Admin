@@ -492,19 +492,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 right: 'timeGridWeek,timeGridDay'
             },
             events: [
-                @foreach ($user->bookings as $booking)
-                    {
-                        title: '{{ $booking->title }}',
-                        start: '{{ \Carbon\Carbon::parse($booking->start_time)->toIso8601String() }}',  // Format to ISO 8601
-                        end: '{{ \Carbon\Carbon::parse($booking->end_time)->toIso8601String() }}',      // Format to ISO 8601
-                        id: '{{ $booking->id }}',
-                    },
+                @foreach ($user->bookings as $booking)  
+                @foreach ($booking->services as $service)
+                {
+                    title: '{{ $service->service_name }} - {{ $booking->user->fname }} {{ $booking->user->lname }} ',
+                    start: '{{ \Carbon\Carbon::parse($booking->start_time) }}', 
+                    end: '{{ \Carbon\Carbon::parse($booking->end_time) }}', 
+                    id: '{{ $service->id }}', 
+                },
                 @endforeach
+            @endforeach
+
             ],
            slotDuration: '00:15:00',  
             allDaySlot: false,  
-            editable: false,  
-            droppable: false, // Disable dragging events (optional)
+            editable: true,  
+            droppable: true, // Disable dragging events (optional)
             dateClick: function(info) {
                 // Show the dropdown at the position of the click
                 showDropdown(info.jsEvent.pageX, info.jsEvent.pageY, info.dateStr);
@@ -547,8 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Ensure we are targeting the correct user tab within this section
             if (activeTab) {
                 const activeUserId = activeTab.getAttribute('data-user-id'); // Get the data-user-id of the active tab
-                console.log("Active Tab:", activeTab); // Debugging: Check if the active tab is being selected correctly
-                console.log("Active user ID: " + activeUserId); // Debugging: Check if the active user ID is correct
+                
 
                 // Update the select input with the active user's ID
                 const userSelect = document.querySelector('select[name="booking_team_member"]');
@@ -584,7 +586,20 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdown.querySelector('#add-booking').addEventListener('click', function() {
         // Open the offcanvas
         const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
+        const activeTab = document.querySelector('.calender-users-images .nav-tabs .nav-link.active');
+            
+            // Ensure we are targeting the correct user tab within this section
+            if (activeTab) {
+                const activeUserId = activeTab.getAttribute('data-user-id'); // Get the data-user-id of the active tab
+                
+
+                // Update the select input with the active user's ID
+                const userSelect = document.querySelector('select[name="booking_team_member"]');
+                if (userSelect) {
+                    userSelect.value = activeUserId; // Set the active user's ID as the selected value
+                }
         offcanvas.show();
+            }
         console.log("Opening booking offcanvas for date:", dateStr);
     });
 

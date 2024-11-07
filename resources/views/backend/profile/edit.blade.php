@@ -38,12 +38,18 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="firstnameInput" class="form-label">Username</label>
-                                                                    <input type="text" class="form-control" name="username" placeholder="Enter your username" value="{{$user->name}}">
+                                                                    <label for="firstnameInput" class="form-label">First Name</label>
+                                                                    <input type="text" class="form-control" name="fname" placeholder="Enter your username" value="{{$user->fname}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label for="firstnameInput" class="form-label">Last Name</label>
+                                                                    <input type="text" class="form-control" name="lname" placeholder="Enter your username" value="{{$user->lname}}">
                                                                 </div>
                                                             </div>
                                                             <!--end col-->
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-12">
                                                                 <div class="mb-3">
                                                                     <label for="lastnameInput" class="form-label">Email</label>
                                                                     <input type="text" class="form-control" name="email" placeholder="Enter your email" value="{{$user->email}}">

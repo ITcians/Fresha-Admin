@@ -41,7 +41,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <th class="ps-0" scope="row">Full Name :</th>
-                                                                <td class="text-muted">{{auth()->user()->name}}</td>
+                                                                <td class="text-muted">{{auth()->user()->fname}} {{auth()->user()->lname}}</td>
                                                             </tr>
                                                            
                                                             <tr>

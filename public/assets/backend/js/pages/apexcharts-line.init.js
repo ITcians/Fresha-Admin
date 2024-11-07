@@ -291,7 +291,7 @@ var linechartBasicColors = getChartColorsArray("line_chart_basic"),
                     ],
                     title: { text: "Month" },
                 },
-                yaxis: { title: { text: "Temperature" }, min: 5, max: 40 },
+                yaxis: { title: { text: "" }, min:  0 , max: 40 },
                 legend: {
                     position: "top",
                     horizontalAlign: "right",

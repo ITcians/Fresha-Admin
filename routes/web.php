@@ -31,7 +31,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth'])->group(function(){
     Route::get('admin/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
-    Route::get('admin/service',[DashboardController::class,'getService'])->name('service');
+    Route::get('admin/dashboard/service',[DashboardController::class,'getService'])->name('dashboard.service');
     Route::get('admin/dashboard/team',[DashboardController::class,'getTeam'])->name('dashboard.team');
     Route::get('admin/profile',[ProfileController::class,'index'])->name('admin.profile.index');
     Route::get('admin/profile/edit',[ProfileController::class,'edit'])->name('admin.profile.edit');

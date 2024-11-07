@@ -13,7 +13,8 @@ class CalendarController extends Controller
 {
     public function index()
     {
-        $users = User::with('bookings')->where('role','!=','1')->get();
+        $users = User::with('bookings.services')->where('role','!=','1')->get();
+        // dd($users);
         $clients = Client::all();
         
         $services = Service::where('status', 1)

@@ -26,28 +26,22 @@
 
             <div class="row">
                 <div class="col">
-
                     <div class="h-100">
-                        
                         <!--end row-->
-
                         <div class="row">
                                 <div class="col-xl-6">
                                     <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title mb-0">Recent sales</h4>
-                                        </div><!-- end card header -->
-        
-                                        <div class="card-body">
-                                           <p>Last 7 days</p>
-                                            <h3> <?php
-                                                $sum = $bookingservice->sum(function($bs) {
-                                                    return $bs->service ? $bs->service->price : 0; // Sum the prices of all services, assuming they exist
-                                                });
-                                            ?>
-                                            <h3>USD {{ $sum }}</h3></h3>
-                                            <div id="line_chart_datalabel" data-colors='["--vz-primary", "--vz-success"]' class="apex-charts" dir="ltr"></div>
-                                        </div><!-- end card-body -->
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title mb-0">Recent sales</h4>
+                                            </div><!-- end card header -->
+            
+                                            <div class="card-body">
+                                               <p>Last 7 days</p>
+                                                <h3>USD {{$totalPrice}}</h3>
+                                                <div id="line_chart_datalabel" data-colors='["--vz-primary", "--vz-success"]' class="apex-charts" dir="ltr"></div>
+                                            </div><!-- end card-body -->
+                                        </div><!-- end card -->
                                     </div><!-- end card -->
                                 </div>
                                 <!-- end col -->
@@ -133,6 +127,144 @@
                             <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">Appiontment Activity</h4>
+                                        
+                                    </div><!-- end card header -->
+
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <table class="table table-hover table-centered align-middle table-nowrap mb-0">
+                                                <tbody>
+                                                    @forelse ($recentBookings as $booking)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rounded me-2">
+                                                                    <strong>{{$booking->created_at->format('d')}}</strong>
+                                                                    <p>{{$booking->created_at->format('M')}}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{$booking->created_at->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
+                                                                    <h5 class="mt-2 mx-2">{{$booking->services[0]->service_name}}</h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in {{ formatDuration($booking->services[0]->duration)}} with <a href="">{{$booking->user->fname}} {{$booking->user->lname}} </a> </h5>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <h4 class=""> USD {{$booking->services[0]->price}}</h4>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td>No Recent Appiontments</td>
+                                                        </tr>
+                                                    @endforelse
+                                                    
+
+                                                    {{-- <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rounded me-2">
+                                                                    <strong>16</strong>
+                                                                    <p>Oct</p>
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
+                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <h4 class="">PKR 510</h4>
+                                                        </td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rounded me-2">
+                                                                    <strong>16</strong>
+                                                                    <p>Oct</p>
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
+                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <h4 class="">PKR 510</h4>
+                                                        </td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rounded me-2">
+                                                                    <strong>16</strong>
+                                                                    <p>Oct</p>
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
+                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <h4 class="">PKR 510</h4>
+                                                        </td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="rounded me-2">
+                                                                    <strong>16</strong>
+                                                                    <p>Oct</p>
+                                                                </div>
+                                                                <div>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">{{now()->format('d-M-Y H:i:s')}} <a href="">Confirmed</a> </h5>
+                                                                    <h5 class="mt-2 mx-2">Haircut</h5>
+                                                                    <h5 class="mx-2 fs-14 my-1 text-muted">Walk-in 1hr 30 min with <a href="">User</a> </h5>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <h4 class="">PKR 510</h4>
+                                                        </td>
+                                                        
+                                                    </tr> --}}
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">Appointment Activity</h4>
                                         
                                     </div><!-- end card header -->
@@ -146,7 +278,6 @@
                                                         @php
                                                         $createdAt = \Carbon\Carbon::parse($bs->created_at);
                                                          @endphp
-                                                
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <div class="rounded me-2">
@@ -188,7 +319,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             {{-- <div class="col-xl-6">
                                 <!-- card -->
@@ -219,15 +350,46 @@
                                     </div><!-- end card header -->
 
                                     <div class="card-body">
+                                        @php
+                                         use Carbon\Carbon;
+                                        @endphp  
                                         <table class="table" id="serviceTable">
                                             <thead>
-                                                <th>ID</th>
                                                 <th>Service</th>
                                                 <th>This Month</th>
                                                 <th>Last Month</th>
                                             </thead>
                                             <tbody>
-                                             
+                                                @forelse ($topServices as $topService)
+                                                    <tr>
+                                                        <td>{{$topService->service_name}}</td>
+                                                        {{-- <td>{{$topService->bookings->count()}}</td>
+                                                        <td>{{$topService->bookings->count()}}</td> --}}
+                                                        <td>
+                                                        @php
+                                                            $thisMonth = $topService->bookings->filter(function($query){
+                                                                return $query->created_at->month == Carbon::now()->month && 
+                                                                           $query->created_at->year == Carbon::now()->year;
+                                                                })->count();
+                                                        @endphp
+                                                            {{ $thisMonth }} Bookings
+                                                        </td>
+                                                        <td>
+                                                            @php
+                                                                
+                                                            $lastMonthBookings = $topService->bookings->filter(function ($booking) {
+                                                                return $booking->created_at->month == Carbon::now()->subMonth()->month && 
+                                                                       $booking->created_at->year == Carbon::now()->subMonth()->year;
+                                                            })->count();
+                                                        @endphp
+                                                        {{ $lastMonthBookings }} Bookings
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td>No Top Services available</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
@@ -238,20 +400,168 @@
                                 <div class="card">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">Top team member</h4>
-                                        
                                     </div><!-- end card header -->
-
                                     <div class="card-body">
-                                        <table class="table" id="teamTable">
+                                        {{-- <table class="table" id="teamTable">
                                             <thead>
-                                                <th>ID</th>
                                                 <th>Team member</th>
                                                 <th>This Month</th>
                                                 <th>Last Month</th>
                                             </thead>
                                             <tbody>
+                                                @forelse ($recentBookings as $rs)
+                                                    <tr>
+                                                        <td>{{$rs->user->fname}} {{$rs->user->lname}}</td>
+                                                        <td>{{$rs->user->bookings->count()}} Booking</td>
+                                                        <td>{{$rs->user->bookings->count()}} Booking</td>
+                                                    </tr>
+                                                @empty
+                                                    
+                                                @endforelse
+                                            </tbody>
+                                        </table> --}}
+                                      {{-- @php
+
+                                      use Carbon\Carbon;
+                                      @endphp   --}}
+                                          
+
+                                        {{-- <table class="table" id="teamTable">
+                                            <thead>
+                                                <th>Team member</th>
+                                                <th>This Month</th>
+                                                <th>Last Month</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($recentBookings as $user)  <!-- Assuming you have a list of users -->
+                                                    <tr>
+                                                        <td>{{ $user->user->fname }} {{ $user->user->lname }}</td>
+
+                                                        <!-- Bookings for the current month -->
+                                                        <td>
+                                                            @php
+                                                                $thisMonthBookings = $user->bookings->where('created_at', Carbon::now()->month)
+                                                                                                    ->where('created_at', Carbon::now()->year)
+                                                                                                    ->count();
+                                                            @endphp
+                                                            {{ $thisMonthBookings }} Booking(s)
+                                                        </td>
+
+                                                        <!-- Bookings for the last month -->
+                                                        <td>
+                                                            @php
+                                                                $lastMonthBookings = $user->bookings->where('created_at', Carbon::now()->subMonth()->month)
+                                                                                                    ->where('created_at', Carbon::now()->subMonth()->year)
+                                                                                                    ->count();
+                                                            @endphp
+                                                            {{ $lastMonthBookings }} Booking(s)
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table> --}}
+
+                                        {{-- <table class="table" id="teamTable">
+                                            <thead>
+                                                <th>Team member</th>
+                                                <th>This Month</th>
+                                                <th>Last Month</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($recentBookings as $user) <!-- Assuming you have a list of users -->
+                                                    <tr>
+                                                        <td>{{ $user->fname }} {{ $user->lname }}</td>
+                                        
+                                                        <!-- Bookings for the current month -->
+                                                        <td>
+                                                            @php
+                                                                $thisMonthBookings = $user->bookings[0]->where(function ($query) {
+                                                                    $query->whereMonth('created_at', Carbon::now()->month)
+                                                                          ->whereYear('created_at', Carbon::now()->year);
+                                                                })->count();
+                                                            @endphp
+                                                            {{ $thisMonthBookings }} Booking(s)
+                                                        </td>
+                                        
+                                                        <!-- Bookings for the last month -->
+                                                        <td>
+                                                            @php
+                                                                $lastMonthBookings = $user->bookings[0]->where(function ($query) {
+                                                                    $query->whereMonth('created_at', Carbon::now()->subMonth()->month)
+                                                                          ->whereYear('created_at', Carbon::now()->subMonth()->year);
+                                                                })->count();
+                                                            @endphp
+                                                            {{ $lastMonthBookings }} Booking(s)
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table> --}}
+                                        
+                                        {{-- <table class="table" id="teamTable">
+                                            <thead>
+                                                <th>Team member</th>
+                                                <th>This Month</th>
+                                                <th>Last Month</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($UserrecentBookings as $user) <!-- Assuming you have a list of users -->
+                                                    <tr>
+                                                        <td>{{ $user->fname }} {{ $user->lname }}</td>
+                                                        
+                                                        <!-- Bookings for the current month -->
+                                                        <td>
+                                                            @php
+                                                                $thisMonthBookings = $user->bookings->filter(function ($booking) {
+                                                                    return $booking->created_at->month == Carbon::now()->month && 
+                                                                           $booking->created_at->year == Carbon::now()->year;
+                                                                })->sum('price');
+                                                            @endphp
+                                                            {{ $thisMonthBookings }}
+                                                        </td>
+                                                        
+                                                        <!-- Bookings for the last month -->
+                                                        <td>
+                                                            @php
+                                                                $lastMonthBookings = $user->bookings->filter(function ($booking) {
+                                                                    return $booking->created_at->month == Carbon::now()->subMonth()->month && 
+                                                                           $booking->created_at->year == Carbon::now()->subMonth()->year;
+                                                                })->price('price');
+                                                            @endphp
+                                                            {{ $lastMonthBookings }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table> --}}
+                                        <table class="table" id="teamTable">
+                                            <thead>
+                                                <th>Team member</th>
+                                                <th>This Month</th>
+                                                <th>Last Month</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($UserrecentBookings as $recentBooking) <!-- Assuming you have a list of users -->
+                                                    <tr>
+                                                        <td>{{ $recentBooking->fname }} {{ $recentBooking->lname }}</td>
+                                                        
+                                                        <!-- Bookings for the current month -->
+                                                        <td>
+                                                          USD {{$recentBooking->bookings[0]?->services[0]?->price}}
+                                                        </td>
+                                                        
+                                                        <!-- Bookings for the last month -->
+                                                        <td>
+                                                           USD {{$recentBooking->bookings[0]?->services[0]?->price}}
+                                                           
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
+                                        
+                                        
+
                                     </div>
                                 </div> <!-- .card-->
                             </div> <!-- .col-->
@@ -703,53 +1013,51 @@
 @push('scripts')
 <script src="{{asset('assets/backend/libs/apexcharts/apexcharts.min.js')}}"></script>
 
-<script src="../../../../apexcharts.com/samples/assets/stock-prices.js"></script>
 
 <!-- linecharts init -->
 <script src="{{asset('assets/backend/js/pages/apexcharts-line.init.js')}}"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#serviceTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('service') }}',
-            columns: [
-                { data: 'id', name: 'id' },
-                { data: 'service_name', name: 'service_name' },
-                { 
-                    data: 'this_month', 
-                    name: 'this_month',
-                    render: function(data, type, row) {
-                        return 'November';  // Static value
-                    }
-                },
-                { 
-                    data: 'last_month', 
-                    name: 'last_month',
-                    render: function(data, type, row) {
-                        return 'September';  // Static value
-                    }
-                },
-            ]
-        });
-    });
+    // $(document).ready(function() {
+    //     $('#serviceTable').DataTable({
+    //         processing: true,
+    //         serverSide: true,
+    //         ajax: '{{ route('dashboard.service') }}',
+    //         columns: [
+    //             { data: 'id', name: 'id' },
+    //             { data: 'service_name', name: 'service_name' },
+    //             { 
+    //                 data: 'this_month', 
+    //                 name: 'this_month',
+    //                 render: function(data, type, row) {
+    //                     return 'November';  // Static value
+    //                 }
+    //             },
+    //             { 
+    //                 data: 'last_month', 
+    //                 name: 'last_month',
+    //                 render: function(data, type, row) {
+    //                     return 'September';  // Static value
+    //                 }
+    //             },
+    //         ]
+    //     });
+    // });
 
- </script>
- <script>
-     $(document).ready(function() {
-        $('#teamTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('dashboard.team') }}',
-            columns: [
-                 { data: 'id', name: 'id' },
-                { data: 'fname', name: 'fname' },
-                { data: 'this_month', name: 'this_month' },
-                { data: 'last_month', name: 'last_month' },
-            ]
-        });
-    });
+ 
+    //  $(document).ready(function() {
+    //     $('#teamTable').DataTable({
+    //         processing: true,
+    //         serverSide: true,
+    //         ajax: '{{ route('dashboard.team') }}',
+    //         columns: [
+    //              { data: 'id', name: 'id' },
+    //             { data: 'fname', name: 'fname' },
+    //             { data: 'this_month', name: 'this_month' },
+    //             { data: 'last_month', name: 'last_month' },
+    //         ]
+    //     });
+    // });
 
  </script>
 

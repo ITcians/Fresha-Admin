@@ -125,7 +125,7 @@
     <script src="{{asset('assets/backend/libs/simonwep/pickr/pickr.min.js')}}"></script>
 
     <!-- init js -->
-    {{-- <script src="{{asset('assets/backend/js/app.js')}}"></script> --}}
+    <script src="{{asset('assets/backend/js/app.js')}}"></script>
     <script src="{{asset('assets/backend/js/pages/form-pickers.init.js')}}"></script>
     
 
